@@ -52,6 +52,7 @@ function Register() {
       }
     >
       <Input
+      
         Icon={() => (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +66,7 @@ function Register() {
         )}
         type={"name"}
         placeholder={"name"}
-        register={...register("name")}
+        register={{...register("name")}}
         id={"name"}
       />
       <Input
@@ -82,12 +83,12 @@ function Register() {
         )}
         type={"email"}
         placeholder={"Email"}
-        register={...register("email", {
+        register={{...register("email", {
           pattern: {
             value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
             message: "Email must be correctly",
           },
-        })}
+        })}}
         id={"email"}
       />
       <Input
@@ -103,7 +104,7 @@ function Register() {
         )}
         type={"password"}
         placeholder={"password"}
-        register={...register("password", {
+        register={{...register("password", {
           required: "Password is required..",
           pattern: {
             value:
@@ -111,7 +112,7 @@ function Register() {
             message:
               "password must had to one  uppercase,one lowercase and one special character",
           },
-        })}
+        })}}
         id={"password"}
       />
       <div className="mt-6 flex gap-2">

@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react'
 import PinImage from '@/app/components/PinDetail/PinImage'
 import PinInfo from '@/app/components/PinDetail/PinInfo'
-import { doc, getDoc, getFirestore } from 'firebase/firestore'
+import { doc, DocumentData, getDoc, getFirestore } from 'firebase/firestore'
 import app from "@/lib/firebaseConfig"
 import { HiArrowSmallLeft } from "react-icons/hi2";
 import { useRouter } from 'next/navigation'
-function PinDetail({params}) {
+function PinDetail({params}:{params:any}) {
   const router=useRouter();
   const db=getFirestore(app);
-  const [pinDetail,setPinDetail]=useState([]);
+  const [pinDetail,setPinDetail]=useState<DocumentData>([]);
   useEffect(()=>{
     getPinDetail();
   },[])
@@ -18,7 +18,7 @@ function PinDetail({params}) {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
        
-        setPinDetail(docSnap.data())
+        setPinDetail(docSnap?.data())
       } else {
        
         console.log("No such document!");

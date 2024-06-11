@@ -5,8 +5,8 @@ import app from "@/lib/firebaseConfig"
 import UserInfo from "@/app/components/userInfo"
 import PinsList from "@/app/components/pins/PinList"
 function Profile({params}:{params:{userEmail:string}}) {
-    let [userInfo,setUserInfo]=useState()
-    let [Listpins,setListpins]=useState([])
+    let [userInfo,setUserInfo]=useState<any>()
+    let [Listpins,setListpins]=useState<any[]>([])
 
     const db=getFirestore(app)
   

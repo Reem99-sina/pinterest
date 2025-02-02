@@ -1,45 +1,57 @@
-"use client"
+"use client";
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import Link from "next/link";
-import {signIn,useSession} from "next-auth/react"
-import {getFirestore,setDoc,doc} from "firebase/firestore"
-import app from "@/lib/firebaseConfig"
-import {useEffect} from "react"
+import { signIn, useSession } from "next-auth/react";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
+import { CgProfile } from "react-icons/cg";
+import {app} from "@/lib/firebaseConfig";
+import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function Header() {
-  const { data: session, status } = useSession()
-  const router=useRouter()
-  const db=getFirestore(app)
-  const saveUserInfo=async()=>{
-    if(session?.user){
-      await setDoc(doc(db,"user",session?.user?.email),{
-        userName:session?.user?.name,
-        email:session?.user?.email
-      })
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const db = getFirestore(app);
+  const saveUserInfo = useCallback(async () => {
+    if (session?.user) {
+      await setDoc(doc(db, "user", session?.user?.email), {
+        userName: session?.user?.name,
+        email: session?.user?.email,
+      });
     }
-    
-  }
-  useEffect(()=>{
-    saveUserInfo()
-  },[session])
+  }, [db,session?.user]);
+  useEffect(() => {
+    saveUserInfo();
+  }, [session,saveUserInfo]);
   return (
     <div className="navbar  bg-white">
-      <a className="btn btn-ghost text-xl" onClick={()=>{router.push("/")}}>
-        <Image width={20} height={20} src={logo}  />
+      <a
+        className="btn btn-ghost text-xl"
+        onClick={() => {
+          router.push("/");
+        }}
+      >
+        <Image width={20} height={20} src={logo} alt="logo" />
       </a>
 
-      <a className="btn btn-ghost text-xl" onClick={()=>router.push("/")}>Home</a>
+      <a className="btn btn-ghost text-xl" onClick={() => router.push("/")}>
+        Home
+      </a>
 
-      <a className="btn btn-ghost text-xl" onClick={()=>{
-        if(session?.user){
-          router.push("/pin-builder")
-        }else{
-          router.push("/login")
-        }
-      }}>Create</a>
+      <a
+        className="btn btn-ghost text-xl"
+        onClick={() => {
+          if (session?.user) {
+            router.push("/pin-builder");
+          } else {
+            router.push("/login");
+          }
+        }}
+      >
+        Create
+      </a>
 
       <div className="form-control">
         <input
@@ -53,8 +65,7 @@ function Header() {
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
             <div className="indicator">
-            <IoIosNotificationsOutline size={30}/>
-
+              <IoIosNotificationsOutline size={30} />
             </div>
           </div>
           <div
@@ -70,23 +81,29 @@ function Header() {
             </div>
           </div>
         </div>
-        
-        {!Boolean(session?.user)&&<Link className="btn" href={"/login"}>Login</Link>}
+
+        {!Boolean(session?.user) && (
+          <Link className="btn" href={"/login"}>
+            Login
+          </Link>
+        )}
         <div className="dropdown dropdown-end">
-       
-        {session?.user&&<div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-            onClick={()=>router.push(`/${session?.user?.email}`)}
-          >
-            <div className="w-10 rounded-full">
-              <img
+          {session?.user && (
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+              onClick={() => router.push(`/${session?.user?.email}`)}
+            >
+              <div className=" rounded-full">
+                <CgProfile className="text-lg" />
+                {/* <img
                 alt="Tailwind CSS Navbar component"
                 src={"https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"}
-              />
+              /> */}
+              </div>
             </div>
-          </div>}
+          )}
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"

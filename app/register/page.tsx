@@ -48,7 +48,7 @@ function Register() {
   return (
     <div
       className={
-        "flex items-center justify-center bg-white rounded-md flex-col gap-3 h-screen"
+        "flex items-center justify-center bg-white rounded-md flex-col gap-3 min-h-screen"
       }
     >
       <Input

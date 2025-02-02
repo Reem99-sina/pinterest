@@ -1,11 +1,15 @@
-import UserTag from "../UserTag"
-import Image from 'next/image'
-import {useRouter} from "next/navigation"
-function PinItem({pin}) {
-   let router= useRouter()
+import UserTag from "../UserTag";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+function PinItem({ pin }) {
+  let router = useRouter();
   return (
-    <div className="text-center" onClick={()=>router.push(`/pin/${pin.id}`)}>
-    <div className="relative 
+    <div
+      className="text-center flex flex-col bg-white shadow-lg justify-around p-4 rounded-md"
+      onClick={() => router.push(`/pin/${pin.id}`)}
+    >
+      <div
+        className="flex items-center justify-center relative 
        before:absolute
        before:h-full before:w-full
        before:rounded-3xl
@@ -14,22 +18,23 @@ function PinItem({pin}) {
        before:opacity-50
        before:inset-0
        cursor-pointer
-       " 
-    style={{backgroundImage:`url(${pin.image})`}}>
-       <Image src={pin.image}
-        alt={pin.title}
-        width={500}
-        height={500}
-        className='rounded-3xl 
-        cursor-pointer relative z-0'
+       "
+       
+      >
+        <Image
+          src={pin.image}
+          alt={pin.title}
+          width={200}
+          height={200}
+          className="rounded-3xl  w-full
+        cursor-pointer relative z-0"
         />
-    
+      </div>
+
+      <UserTag user={pin}>
+        <h2 className="text-black font-semibold ">{pin.title}</h2>
+      </UserTag>
     </div>
-    <h2 className="text-black font-semibold ">
-        {pin.title}
-        </h2>
-        <UserTag user={pin}/>
-    </div>
-  )
+  );
 }
-export default PinItem
+export default PinItem;
